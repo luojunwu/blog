@@ -1,10 +1,18 @@
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea3769109f2145a6ab4e09b407fefa4c~tplv-k3u1fbpfcp-zoom-1.image)
+---
+title: 我给Apache的顶级项目提了个Bug
+date: 2020/11/22
+categories: [技术干货]
+tags: [线上问题排查]
+
+---
 
 这篇文章记录了给 Apache 顶级项目 - 分库分表中间件 ShardingSphere 提交 Bug 的历程。
 
-说实话，这是一次比较曲折的 Bug 跟踪之旅。10月28日，我们在 GitHub 上提交 issue，中途因为官方开发者的主观臆断被 Close 了两次，直到 11 月 20 日才被认定成 Bug 并发出修复版本，历时 20 多天。
+说实话，这是一次比较曲折的 Bug 跟踪之旅。10月28日，我们在 GitHub 上提交 issue，中途因为官方开发者的主观臆断被 Close 了两次，直到 11 月 20 日才被认定成 Bug 并发出修复版本，历时 20 多天。本文将还原该 Bug 的分析过程，将有价值的经验和技术点进行提炼。
 
-本文将还原该 Bug 的分析过程，将有价值的经验和技术点进行提炼。通过本文，你将收获到：
+<!-- more -->
+
+通过本文，你将收获到：
 
 > 1、疑难问题的排查思路
 > 
@@ -13,6 +21,8 @@
 > 3、MySQL 预编译的流程和交互协议
 > 
 > 4、Wireshark 抓包分析 MySQL 的奇淫技巧
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea3769109f2145a6ab4e09b407fefa4c~tplv-k3u1fbpfcp-zoom-1.image)
 
 # 01 问题描述 
 
